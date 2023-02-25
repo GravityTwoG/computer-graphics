@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+    <link rel="stylesheet" href="./src/styles/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Line Drawing Algorithms</h1>
+
+      <section class="section" id="section1">
+        <div class="section__header">
+          <h2>NSDDA</h2>
+
+          <button type="button" class="button clear">clear</button>
+        </div>
+        <canvas class="screen" id="screen" width="640" height="160"></canvas>
+      </section>
+
+      <section class="section" id="section2">
+        <div class="section__header">
+          <h2>Brezenham</h2>
+
+          <button type="button" class="button clear">clear</button>
+        </div>
+        <canvas class="screen" id="screen2" width="640" height="160"></canvas>
+      </section>
+
+      <section class="section" id="section3">
+        <div class="section__header">
+          <h2>
+            <span style="color: #51b52c">NSDDA</span> &
+            <span style="color: #4b94fa">Brezenham</span>
+          </h2>
+
+          <button type="button" class="button clear">clear</button>
+        </div>
+        <canvas class="screen" id="screen3" width="640" height="160"></canvas>
+      </section>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
