@@ -11,7 +11,7 @@ export class ScreenEmulator implements Screen {
   private screenBuffer: PixelData[][] = [];
 
   // size of "emulated" pixel
-  private pixelSize: number = 1;
+  private pixelSize: number = 20;
   private gridColor: Color = '#000000';
 
   // size of emulated screen
@@ -33,6 +33,7 @@ export class ScreenEmulator implements Screen {
     };
 
     this.computeRowsAndCols();
+    this.setGridColor('#000000');
   }
 
   private computeRowsAndCols() {

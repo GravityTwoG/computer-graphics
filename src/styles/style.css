@@ -8,6 +8,14 @@ body {
   background-color: #000;
 }
 
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 8px;
+  background-color: #fff;
+}
+
 #app {
   margin: 0 auto;
   max-width: 1200px;
