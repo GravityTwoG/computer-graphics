@@ -14,39 +14,27 @@
     </nav>
 
     <div id="app">
-      <h1>Line Drawing Algorithms</h1>
+      <h1>Polygon Drawing Algorithms</h1>
 
       <section class="section" id="section1">
         <div class="section__header">
-          <h2>NSDDA</h2>
+          <h2>ScanLine</h2>
 
           <button type="button" class="button clear">clear</button>
         </div>
-        <canvas class="screen" id="screen" width="640" height="160"></canvas>
+        <canvas class="screen" id="screen" width="640" height="320"></canvas>
       </section>
 
       <section class="section" id="section2">
         <div class="section__header">
-          <h2>Brezenham</h2>
+          <h2>Fill by edges</h2>
 
           <button type="button" class="button clear">clear</button>
         </div>
-        <canvas class="screen" id="screen2" width="640" height="160"></canvas>
-      </section>
-
-      <section class="section" id="section3">
-        <div class="section__header">
-          <h2>
-            <span style="color: #51b52c">NSDDA</span> &
-            <span style="color: #4b94fa">Brezenham</span>
-          </h2>
-
-          <button type="button" class="button clear">clear</button>
-        </div>
-        <canvas class="screen" id="screen3" width="640" height="160"></canvas>
+        <canvas class="screen" id="screen2" width="640" height="320"></canvas>
       </section>
     </div>
 
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/polygonDrawing.ts"></script>
   </body>
 </html>

@@ -4,13 +4,14 @@ import { Container } from 'inversify';
 import { TYPES } from './interfaces/ioc/types';
 import { Screen } from './interfaces/Screen';
 import { LineDrawer } from './interfaces/LineDrawer';
-import { PolygonFiller } from './interfaces/PolygonFiller';
+import { PolygonDrawer } from './interfaces/PolygonDrawer';
 
 import { ScreenEmulator } from './Screens/ScreenEmulator';
 import { Brezenham } from './LineDrawers/Brezenham';
 
-import { PolygonFillingPresenter } from './PolygonFillingPresenter';
-import { ScanLine } from './Scanline';
+import { PolygonDrawingPresenter } from './PolygonDrawingPresenter';
+import { ScanLine } from './PolygonDrawers/ScanLine';
+import { FillByEdges } from './PolygonDrawers/FillByEdges';
 
 async function bootstrap() {
   const root = document.querySelector<HTMLDivElement>('#section1');
@@ -28,22 +29,43 @@ async function bootstrap() {
     .to(Brezenham)
     .inSingletonScope();
   container
-    .bind<PolygonFiller>(TYPES.POLYGON_FILLER)
+    .bind<PolygonDrawer>(TYPES.POLYGON_FILLER)
     .to(ScanLine)
     .inSingletonScope();
   container
-    .bind<PolygonFillingPresenter>(TYPES.PRESENTER)
-    .to(PolygonFillingPresenter)
+    .bind<PolygonDrawingPresenter>(TYPES.PRESENTER)
+    .to(PolygonDrawingPresenter)
     .inSingletonScope();
 
-  const presenter = container.get(TYPES.PRESENTER);
-  console.log(presenter);
+  container.get(TYPES.PRESENTER);
+
   //
   const root2 = document.querySelector<HTMLDivElement>('#section2');
   const screenCanvas2 = document.querySelector<HTMLCanvasElement>('#screen2');
   if (!screenCanvas2 || !root2) {
     return;
   }
+
+  const container2 = new Container();
+  container2.bind<HTMLDivElement>(TYPES.ROOT).toConstantValue(root2);
+  container2
+    .bind<HTMLCanvasElement>(TYPES.CANVAS)
+    .toConstantValue(screenCanvas2);
+  container2.bind<Screen>(TYPES.SCREEN).to(ScreenEmulator).inSingletonScope();
+  container2
+    .bind<LineDrawer>(TYPES.LINE_DRAWER)
+    .to(Brezenham)
+    .inSingletonScope();
+  container2
+    .bind<PolygonDrawer>(TYPES.POLYGON_FILLER)
+    .to(FillByEdges)
+    .inSingletonScope();
+  container2
+    .bind<PolygonDrawingPresenter>(TYPES.PRESENTER)
+    .to(PolygonDrawingPresenter)
+    .inSingletonScope();
+
+  container2.get(TYPES.PRESENTER);
 }
 
 bootstrap();

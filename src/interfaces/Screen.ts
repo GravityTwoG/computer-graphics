@@ -10,6 +10,7 @@ export interface Screen {
   getScreenBuffer(): PixelData[][];
 
   setPixel(x: number, y: number, color: Color): void;
+  getPixel(x: number, y: number): Color;
 
   setPixelSize(width: number): void;
   setGridColor(color: Color): void;

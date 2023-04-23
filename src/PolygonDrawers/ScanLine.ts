@@ -1,9 +1,10 @@
 import { inject, injectable } from 'inversify';
 
-import { TYPES } from './interfaces/ioc/types';
-import { Color } from './interfaces/Color';
-import { type LineDrawer } from './interfaces/LineDrawer';
-import { Point, PolygonFiller } from './interfaces/PolygonFiller';
+import { TYPES } from '../interfaces/ioc/types';
+import { Color } from '../interfaces/Color';
+import { type LineDrawer } from '../interfaces/LineDrawer';
+import { PolygonDrawer } from '../interfaces/PolygonDrawer';
+import { Point } from '../interfaces/Point';
 
 type IntersectionNode = {
   x: number;
@@ -13,12 +14,12 @@ type IntersectionNode = {
 
 // https://web.cs.ucdavis.edu/~ma/ECS175_S00/Notes/0411_b.pdf
 @injectable()
-export class ScanLine implements PolygonFiller {
+export class ScanLine implements PolygonDrawer {
   constructor(
     @inject(TYPES.LINE_DRAWER) private readonly lineDrawer: LineDrawer
   ) {}
 
-  public async fillPolygon(shape: Point[], color: Color) {
+  public async drawPolygon(shape: Point[], color: Color) {
     if (shape.length < 3) return;
 
     let min_y = Number.MAX_SAFE_INTEGER;

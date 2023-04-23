@@ -13,10 +13,24 @@ export class ScreenEmulator implements Screen {
   // size of "emulated" pixel
   private pixelSize: number = 20;
   private gridColor: Color = '#000000';
+  private bgColor: Color = '#ffffff';
 
   // size of emulated screen
   private cols: number = 0;
   private rows: number = 0;
+
+  private computeRowsAndCols() {
+    this.cols = Math.trunc(this.root.width / this.pixelSize);
+    this.rows = Math.trunc(this.root.height / this.pixelSize);
+  }
+
+  private initScreenBuffer() {
+    this.screenBuffer = new Array(this.cols);
+
+    for (let x = 0; x < this.cols; x++) {
+      this.screenBuffer[x] = new Array(this.rows).fill(this.bgColor);
+    }
+  }
 
   constructor(@inject(TYPES.CANVAS) root: HTMLCanvasElement) {
     this.root = root;
@@ -33,18 +47,19 @@ export class ScreenEmulator implements Screen {
     };
 
     this.computeRowsAndCols();
+    this.initScreenBuffer();
     this.setGridColor('#000000');
-  }
-
-  private computeRowsAndCols() {
-    this.cols = Math.trunc(this.root.width / this.pixelSize);
-    this.rows = Math.trunc(this.root.height / this.pixelSize);
-    this.screenBuffer = new Array(this.cols).fill(new Array(this.rows));
+    this.drawPixelGrid();
   }
 
   public setPixelSize(pixelWidth: number) {
+    if (pixelWidth === this.pixelSize) return;
+
     this.pixelSize = pixelWidth;
     this.computeRowsAndCols();
+    this.initScreenBuffer();
+    this.clear();
+    this.drawPixelGrid();
   }
 
   public setGridColor(color: Color) {
@@ -74,6 +89,7 @@ export class ScreenEmulator implements Screen {
   }
 
   public clear(): void {
+    this.initScreenBuffer();
     this.context.clearRect(0, 0, this.root.width, this.root.height);
     this.drawPixelGrid();
   }
@@ -89,6 +105,10 @@ export class ScreenEmulator implements Screen {
       realPixelSize,
       realPixelSize
     );
+  }
+
+  public getPixel(x: number, y: number) {
+    return this.screenBuffer[x][y];
   }
 
   public getWidth(): number {

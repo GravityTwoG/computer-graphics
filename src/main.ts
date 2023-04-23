@@ -30,7 +30,6 @@ async function bootstrap() {
     .inSingletonScope();
 
   const presenter = container.get<LineDrawingPresenter>(TYPES.PRESENTER);
-  console.log(presenter);
   //
   const root2 = document.querySelector<HTMLDivElement>('#section2');
   const screenCanvas2 = document.querySelector<HTMLCanvasElement>('#screen2');
