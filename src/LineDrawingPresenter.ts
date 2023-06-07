@@ -11,7 +11,6 @@ export class LineDrawingPresenter {
   public x2 = 0;
   public y2 = 0;
   public readonly pixelSize = 20;
-  public onDestroy = () => {};
 
   constructor(
     @inject(TYPES.ROOT) readonly root: HTMLDivElement,
@@ -33,9 +32,5 @@ export class LineDrawingPresenter {
     button.onclick = () => {
       this.screen.clear();
     };
-  }
-
-  public destroy() {
-    this.onDestroy();
   }
 }

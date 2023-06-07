@@ -4,6 +4,15 @@ export type PixelData = Color;
 
 export type Unsubscribe = () => void;
 
+export type ScreenEvent = {
+  x: number;
+  y: number;
+  isLeft: boolean;
+  isMiddle: boolean;
+  isRight: boolean;
+  event: MouseEvent;
+};
+
 export interface Screen {
   getWidth(): number;
   getHeight(): number;
@@ -18,13 +27,6 @@ export interface Screen {
 
   addEventListener(
     eventType: 'mousedown' | 'mouseup' | 'mouseover',
-    cb: (e: {
-      x: number;
-      y: number;
-      isLeft: boolean;
-      isMiddle: boolean;
-      isRight: boolean;
-      event: MouseEvent;
-    }) => void
+    cb: (e: ScreenEvent) => void
   ): Unsubscribe;
 }
