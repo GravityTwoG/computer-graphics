@@ -21,20 +21,18 @@ export class NSDDA extends AbstractLineDrawer implements LineDrawer {
     const dy = y2 - y1;
     const steps = Math.max(Math.abs(dx), Math.abs(dy));
 
-    const x_step = (x2 - x1) / steps;
-    const y_step = (y2 - y1) / steps;
+    const x_step = dx / steps;
+    const y_step = dy / steps;
 
     let x = x1 + 0.5;
     let y = y1 + 0.5;
 
-    let i = 0;
-    while (i <= steps) {
+    for (let i = 0; i <= steps; i++) {
       this.screen.setPixel(intl(x), intl(y), this.color);
       await this.sleep(DRAWING_DELAY_MS);
 
       x = x + x_step;
       y = y + y_step;
-      i++;
     }
   }
 }
