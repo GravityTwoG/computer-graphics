@@ -18,7 +18,7 @@ export class PolygonDrawingPresenter {
   ) {
     this.figure = [];
     const drawEdges = false;
-    this.screen.setPixelSize(40);
+    this.screen.setPixelSize(20);
 
     this.screen.addEventListener('mousedown', async (e) => {
       const last = { x: e.x, y: e.y };

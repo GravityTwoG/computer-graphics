@@ -6,14 +6,37 @@
 
 body {
   background-color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
 }
 
 nav {
+  margin: auto;
+  max-width: 1200px;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  padding: 8px;
+  gap: 4px;
+  padding: 0 8px;
   background-color: #fff;
+  border-radius: 6px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+nav > a {
+  height: 100%;
+  padding: 8px;
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  transition: color 0.1s ease;
+}
+nav > a:hover {
+  color: blueviolet;
+}
+
+nav > a.active {
+  text-decoration: underline;
 }
 
 #app {
@@ -24,7 +47,7 @@ nav {
 
 h1 {
   color: #fff;
-  font-size: 4rem;
+  font-size: clamp(1.5rem, 6vw, 4rem);
   line-height: 1.5em;
   font-family: sans-serif;
 }
@@ -50,4 +73,5 @@ section.section {
 
 canvas.screen {
   width: 100%;
+  image-rendering: pixelated;
 }
