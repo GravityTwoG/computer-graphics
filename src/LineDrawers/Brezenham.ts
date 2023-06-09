@@ -4,13 +4,7 @@ import { LineDrawer } from '../interfaces/LineDrawer';
 import { type Screen } from '../interfaces/Screen';
 
 import { AbstractLineDrawer } from './AbstractLineDrawer';
-import { DRAWING_DELAY_MS } from './constants';
-
-function sign(x: number): -1 | 0 | 1 {
-  if (x < 0) return -1;
-  if (x == 0) return 0;
-  return 1;
-}
+import { DRAWING_DELAY_MS } from '../constants';
 
 @injectable()
 export class Brezenham extends AbstractLineDrawer implements LineDrawer {
@@ -23,8 +17,8 @@ export class Brezenham extends AbstractLineDrawer implements LineDrawer {
     let y = y1;
     const dx = Math.abs(x2 - x1);
     const dy = Math.abs(y2 - y1);
-    const sDx = sign(x2 - x1);
-    const sDy = sign(y2 - y1);
+    const sDx = Math.sign(x2 - x1);
+    const sDy = Math.sign(y2 - y1);
 
     if (0 == dx && 0 == dy) {
       this.screen.setPixel(x, y, this.color);

@@ -16,6 +16,7 @@ export default defineConfig({
         index: resolve(root, 'index.html'),
         draw: resolve(root, 'pages/draw.html'),
         fill: resolve(root, 'pages/fill.html'),
+        lineclip: resolve(root, 'pages/line-clip.html'),
       },
     },
   },

@@ -11,6 +11,7 @@
       <a href="../index.html">Line Drawing Algorithms</a>
       <a href="/pages/draw.html">Polygon Drawing Algorithms</a>
       <a class="active" href="/pages/fill.html">Polygon Filling Algorithms</a>
+      <a href="/pages/line-clip.html">Line Clipping Algorithm</a>
     </nav>
 
     <div id="app">
@@ -21,6 +22,9 @@
           Draw edges with left button click and fill polygon by clicking right
           mouse button inside polygon.
         </p>
+        <p>
+          This algorithms cannot fill pixels located in diagonal between edges.
+        </p>
       </section>
 
       <section class="section" id="section1">
@@ -30,9 +34,6 @@
           <button type="button" class="button clear">clear</button>
         </div>
 
-        <p>
-          This algorithm cannot fill pixels located in diagonal between edges.
-        </p>
         <canvas class="screen" id="screen" width="640" height="320"></canvas>
       </section>
 

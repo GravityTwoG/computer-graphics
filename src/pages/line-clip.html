@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="../index.html">Line Drawing Algorithms</a>
+      <a href="/pages/draw.html">Polygon Drawing Algorithms</a>
+      <a href="/pages/fill.html">Polygon Filling Algorithms</a>
+      <a class="active" href="/pages/line-clip.html">Line Clipping Algorithm</a>
+    </nav>
+
+    <div id="app">
+      <h1>Line Clipping Algorithm</h1>
+
+      <section class="section">
+        <p>Draw lines by left clicks.</p>
+      </section>
+
+      <section class="section" id="section1">
+        <div class="section__header">
+          <h2>Line Clipping Algorithm</h2>
+
+          <button type="button" class="button clear">clear</button>
+        </div>
+
+        <canvas class="screen" id="screen" width="640" height="320"></canvas>
+      </section>
+    </div>
+
+    <script type="module" src="../lineClipping.ts"></script>
+  </body>
+</html>

@@ -4,7 +4,7 @@ import { LineDrawer } from '../interfaces/LineDrawer';
 import { type Screen } from '../interfaces/Screen';
 
 import { AbstractLineDrawer } from './AbstractLineDrawer';
-import { DRAWING_DELAY_MS } from './constants';
+import { DRAWING_DELAY_MS } from '../constants';
 
 function intl(x: number): number {
   return Math.floor(x);
