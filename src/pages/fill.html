@@ -4,37 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + TS</title>
-    <link rel="stylesheet" href="/src/styles/style.css" />
+    <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
     <nav>
-      <a href="/index.html">Line Drawing Algorithms</a>
-      <a class="active" href="/pages/draw.html">Polygon Drawing Algorithms</a>
-      <a href="/pages/fill.html">Polygon Filling Algorithms</a>
+      <a href="../index.html">Line Drawing Algorithms</a>
+      <a href="/pages/draw.html">Polygon Drawing Algorithms</a>
+      <a class="active" href="/pages/fill.html">Polygon Filling Algorithms</a>
     </nav>
 
     <div id="app">
-      <h1>Polygon Drawing Algorithms</h1>
+      <h1>Polygon Filling Algorithms</h1>
 
       <section class="section">
         <p>
-          To draw polygon add vertices by left click and complete polygon by
-          clicking on first vertex.
+          Draw edges with left button click and fill polygon by clicking right
+          mouse button inside polygon.
         </p>
       </section>
 
       <section class="section" id="section1">
         <div class="section__header">
-          <h2>ScanLine</h2>
+          <h2>BoundaryFill</h2>
 
           <button type="button" class="button clear">clear</button>
         </div>
+
+        <p>
+          This algorithm cannot fill pixels located in diagonal between edges.
+        </p>
         <canvas class="screen" id="screen" width="640" height="320"></canvas>
       </section>
 
       <section class="section" id="section2">
         <div class="section__header">
-          <h2>Fill by edges</h2>
+          <h2>BoundaryFillLine</h2>
 
           <button type="button" class="button clear">clear</button>
         </div>
@@ -42,6 +46,6 @@
       </section>
     </div>
 
-    <script type="module" src="/src/polygonDrawing.ts"></script>
+    <script type="module" src="../polygonFilling.ts"></script>
   </body>
 </html>
