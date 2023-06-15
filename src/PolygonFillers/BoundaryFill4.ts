@@ -1,4 +1,4 @@
-import { inject, injectable } from 'inversify';
+import { inject, injectable } from 'tsyringe';
 import { Color } from '../interfaces/Color';
 import { TYPES } from '../interfaces/ioc/types';
 import { PolygonFiller } from '../interfaces/PolygonFiller';

@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Container } from 'inversify';
+import { container as Container, Lifecycle } from 'tsyringe';
 
 import { TYPES } from './interfaces/ioc/types';
 import { Screen } from './interfaces/Screen';
@@ -22,25 +22,37 @@ async function bootstrap() {
 
   adjustCanvasSize(screenCanvas);
 
-  const container = new Container();
-  container.bind<HTMLDivElement>(TYPES.ROOT).toConstantValue(root);
-  container.bind<HTMLCanvasElement>(TYPES.CANVAS).toConstantValue(screenCanvas);
-  container.bind<Screen>(TYPES.SCREEN).to(ScreenEmulator).inSingletonScope();
-  container
-    .bind<LineDrawer>(TYPES.LINE_DRAWER)
-    .to(Brezenham)
-    .inSingletonScope();
-  container
-    .bind<LineClipper>(TYPES.LINE_CLIPPER)
-    .to(LineClipperImpl)
-    .inSingletonScope();
+  const container = Container.createChildContainer();
+  container.register<HTMLDivElement>(TYPES.ROOT, { useValue: root });
+  container.register<HTMLCanvasElement>(TYPES.CANVAS, {
+    useValue: screenCanvas,
+  });
+  container.register<Screen>(
+    TYPES.SCREEN,
+    { useClass: ScreenEmulator },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container.register<LineDrawer>(
+    TYPES.LINE_DRAWER,
+    { useClass: Brezenham },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container.register<LineClipper>(
+    TYPES.LINE_CLIPPER,
+    {
+      useClass: LineClipperImpl,
+    },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
 
-  container
-    .bind<LineClippingPresenter>(TYPES.PRESENTER)
-    .to(LineClippingPresenter)
-    .inSingletonScope();
-
-  container.get(TYPES.PRESENTER);
+  container.register<LineClippingPresenter>(
+    TYPES.PRESENTER,
+    {
+      useClass: LineClippingPresenter,
+    },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container.resolve(TYPES.PRESENTER);
 }
 
 bootstrap();

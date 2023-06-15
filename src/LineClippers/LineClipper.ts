@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { injectable, inject } from 'tsyringe';
 
 import { type Screen } from '../interfaces/Screen';
 import { Point } from '../interfaces/Point';
@@ -7,13 +7,17 @@ import type { LineDrawer } from '../interfaces/LineDrawer';
 import type { LineClipper } from '../interfaces/LineClipper';
 
 import { AbstractLineClipper } from './AbstractLineClipper';
+import { TYPES } from '../interfaces/ioc/types';
 
 @injectable()
 export class LineClipperImpl
   extends AbstractLineClipper
   implements LineClipper
 {
-  constructor(screen: Screen, lineDrawer: LineDrawer) {
+  constructor(
+    @inject(TYPES.SCREEN) screen: Screen,
+    @inject(TYPES.LINE_DRAWER) lineDrawer: LineDrawer
+  ) {
     super(screen, lineDrawer);
   }
 

@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Container } from 'inversify';
+import { container as Container, Lifecycle } from 'tsyringe';
 
 import { TYPES } from './interfaces/ioc/types';
 import { Screen } from './interfaces/Screen';
@@ -23,24 +23,37 @@ async function bootstrap() {
   }
   adjustCanvasSize(screenCanvas);
 
-  const container = new Container();
-  container.bind<HTMLDivElement>(TYPES.ROOT).toConstantValue(root);
-  container.bind<HTMLCanvasElement>(TYPES.CANVAS).toConstantValue(screenCanvas);
-  container.bind<Screen>(TYPES.SCREEN).to(ScreenEmulator).inSingletonScope();
-  container
-    .bind<LineDrawer>(TYPES.LINE_DRAWER)
-    .to(Brezenham)
-    .inSingletonScope();
-  container
-    .bind<PolygonFiller>(TYPES.POLYGON_DRAWER)
-    .to(BoundaryFill4)
-    .inSingletonScope();
-  container
-    .bind<PolygonFillingPresenter>(TYPES.PRESENTER)
-    .to(PolygonFillingPresenter)
-    .inSingletonScope();
+  const container = Container.createChildContainer();
+  container.register<HTMLDivElement>(TYPES.ROOT, { useValue: root });
+  container.register<HTMLCanvasElement>(TYPES.CANVAS, {
+    useValue: screenCanvas,
+  });
+  container.register<Screen>(
+    TYPES.SCREEN,
+    { useClass: ScreenEmulator },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container.register<LineDrawer>(
+    TYPES.LINE_DRAWER,
+    { useClass: Brezenham },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container.register<PolygonFiller>(
+    TYPES.POLYGON_DRAWER,
+    {
+      useClass: BoundaryFill4,
+    },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container.register<PolygonFillingPresenter>(
+    TYPES.PRESENTER,
+    {
+      useClass: PolygonFillingPresenter,
+    },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
 
-  container.get(TYPES.PRESENTER);
+  container.resolve(TYPES.PRESENTER);
 
   //
   const root2 = document.querySelector<HTMLDivElement>('#section2');
@@ -50,26 +63,36 @@ async function bootstrap() {
   }
   adjustCanvasSize(screenCanvas);
 
-  const container2 = new Container();
-  container2.bind<HTMLDivElement>(TYPES.ROOT).toConstantValue(root2);
-  container2
-    .bind<HTMLCanvasElement>(TYPES.CANVAS)
-    .toConstantValue(screenCanvas2);
-  container2.bind<Screen>(TYPES.SCREEN).to(ScreenEmulator).inSingletonScope();
-  container2
-    .bind<LineDrawer>(TYPES.LINE_DRAWER)
-    .to(Brezenham)
-    .inSingletonScope();
-  container2
-    .bind<PolygonFiller>(TYPES.POLYGON_DRAWER)
-    .to(BoundaryFillLine)
-    .inSingletonScope();
-  container2
-    .bind<PolygonFillingPresenter>(TYPES.PRESENTER)
-    .to(PolygonFillingPresenter)
-    .inSingletonScope();
-
-  container2.get(TYPES.PRESENTER);
+  const container2 = Container.createChildContainer();
+  container2.register<HTMLDivElement>(TYPES.ROOT, { useValue: root2 });
+  container2.register<HTMLCanvasElement>(TYPES.CANVAS, {
+    useValue: screenCanvas2,
+  });
+  container2.register<Screen>(
+    TYPES.SCREEN,
+    { useClass: ScreenEmulator },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container2.register<LineDrawer>(
+    TYPES.LINE_DRAWER,
+    { useClass: Brezenham },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container2.register<PolygonFiller>(
+    TYPES.POLYGON_DRAWER,
+    {
+      useClass: BoundaryFillLine,
+    },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container2.register<PolygonFillingPresenter>(
+    TYPES.PRESENTER,
+    {
+      useClass: PolygonFillingPresenter,
+    },
+    { lifecycle: Lifecycle.ContainerScoped }
+  );
+  container2.resolve(TYPES.PRESENTER);
 }
 
 bootstrap();

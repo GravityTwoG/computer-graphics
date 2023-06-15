@@ -1,4 +1,4 @@
-import { injectable, inject } from 'inversify';
+import { injectable, inject } from 'tsyringe';
 import { TYPES } from '../interfaces/ioc/types';
 
 import { Color } from '../interfaces/Color';
@@ -19,19 +19,6 @@ export class ScreenEmulator implements Screen {
   private cols: number = 0;
   private rows: number = 0;
 
-  private computeRowsAndCols() {
-    this.cols = Math.trunc(this.root.width / this.pixelSize);
-    this.rows = Math.trunc(this.root.height / this.pixelSize);
-  }
-
-  private initScreenBuffer() {
-    this.screenBuffer = new Array(this.cols);
-
-    for (let x = 0; x < this.cols; x++) {
-      this.screenBuffer[x] = new Array(this.rows).fill(this.bgColor);
-    }
-  }
-
   constructor(@inject(TYPES.CANVAS) root: HTMLCanvasElement) {
     this.root = root;
     const ctx = this.root.getContext('2d');
@@ -50,6 +37,19 @@ export class ScreenEmulator implements Screen {
     this.initScreenBuffer();
     this.setGridColor(Colors.GRID);
     this.drawPixelGrid();
+  }
+
+  private computeRowsAndCols() {
+    this.cols = Math.trunc(this.root.width / this.pixelSize);
+    this.rows = Math.trunc(this.root.height / this.pixelSize);
+  }
+
+  private initScreenBuffer() {
+    this.screenBuffer = new Array(this.cols);
+
+    for (let x = 0; x < this.cols; x++) {
+      this.screenBuffer[x] = new Array(this.rows).fill(this.bgColor);
+    }
   }
 
   public setPixelSize(pixelWidth: number) {

@@ -1,4 +1,4 @@
-import { inject, injectable } from 'inversify';
+import { inject, injectable } from 'tsyringe';
 
 import { TYPES } from './interfaces/ioc/types';
 import { type Screen } from './interfaces/Screen';

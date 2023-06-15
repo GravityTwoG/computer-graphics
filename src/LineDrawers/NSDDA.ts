@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { injectable, inject } from 'tsyringe';
 
 import { LineDrawer } from '../interfaces/LineDrawer';
 import { type Screen } from '../interfaces/Screen';
@@ -6,6 +6,7 @@ import { type Screen } from '../interfaces/Screen';
 import { AbstractLineDrawer } from './AbstractLineDrawer';
 import { DRAWING_DELAY_MS } from '../constants';
 import { sleep } from '../sleep';
+import { TYPES } from '../interfaces/ioc/types';
 
 function intl(x: number): number {
   return Math.floor(x);
@@ -13,7 +14,7 @@ function intl(x: number): number {
 
 @injectable()
 export class NSDDA extends AbstractLineDrawer implements LineDrawer {
-  constructor(screen: Screen) {
+  constructor(@inject(TYPES.SCREEN) screen: Screen) {
     super(screen);
   }
 
