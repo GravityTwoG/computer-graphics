@@ -5,6 +5,7 @@ import { type Screen } from '../interfaces/Screen';
 
 import { AbstractLineDrawer } from './AbstractLineDrawer';
 import { DRAWING_DELAY_MS } from '../constants';
+import { sleep } from '../sleep';
 
 function intl(x: number): number {
   return Math.floor(x);
@@ -29,7 +30,7 @@ export class NSDDA extends AbstractLineDrawer implements LineDrawer {
 
     for (let i = 0; i <= steps; i++) {
       this.screen.setPixel(intl(x), intl(y), this.color);
-      await this.sleep(DRAWING_DELAY_MS);
+      await sleep(DRAWING_DELAY_MS);
 
       x = x + x_step;
       y = y + y_step;

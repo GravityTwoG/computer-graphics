@@ -13,12 +13,15 @@ import { BoundaryFill4 } from './PolygonFillers/BoundaryFill4';
 import { BoundaryFillLine } from './PolygonFillers/BoundaryFillLine';
 import { PolygonFiller } from './interfaces/PolygonFiller';
 
+import { adjustCanvasSize } from './adjustCanvasSize';
+
 async function bootstrap() {
   const root = document.querySelector<HTMLDivElement>('#section1');
   const screenCanvas = document.querySelector<HTMLCanvasElement>('#screen');
   if (!screenCanvas || !root) {
     return;
   }
+  adjustCanvasSize(screenCanvas);
 
   const container = new Container();
   container.bind<HTMLDivElement>(TYPES.ROOT).toConstantValue(root);
@@ -45,6 +48,7 @@ async function bootstrap() {
   if (!screenCanvas2 || !root2) {
     return;
   }
+  adjustCanvasSize(screenCanvas);
 
   const container2 = new Container();
   container2.bind<HTMLDivElement>(TYPES.ROOT).toConstantValue(root2);

@@ -4,16 +4,12 @@ import { TYPES } from '../interfaces/ioc/types';
 import { PolygonFiller } from '../interfaces/PolygonFiller';
 import { type Screen } from '../interfaces/Screen';
 import { Point } from '../interfaces/Point';
+import { DRAWING_DELAY_MS } from '../constants';
+import { sleep } from '../sleep';
 
 @injectable()
 export class BoundaryFillLine implements PolygonFiller {
   constructor(@inject(TYPES.SCREEN) private readonly screen: Screen) {}
-
-  protected async sleep(duration: number): Promise<void> {
-    return new Promise((resolve) => {
-      setTimeout(resolve, duration);
-    });
-  }
 
   checkNextLine(
     x_min: number,
@@ -49,9 +45,7 @@ export class BoundaryFillLine implements PolygonFiller {
     boundaryColor: Color,
     fillColor: Color
   ) {
-    const stack: Point[] = [];
-
-    stack.push({ x, y });
+    const stack: Point[] = [{ x, y }];
 
     let x_max: number;
     let x_min: number;
@@ -63,7 +57,7 @@ export class BoundaryFillLine implements PolygonFiller {
       let currentColor = this.screen.getPixel(x, y);
       while (currentColor !== boundaryColor && currentColor !== fillColor) {
         this.screen.setPixel(x, y, fillColor);
-        await this.sleep(30);
+        await sleep(DRAWING_DELAY_MS);
         x++;
         currentColor = this.screen.getPixel(x, y);
       }
@@ -74,7 +68,7 @@ export class BoundaryFillLine implements PolygonFiller {
       currentColor = this.screen.getPixel(x, y);
       while (currentColor !== boundaryColor && currentColor !== fillColor) {
         this.screen.setPixel(x, y, fillColor);
-        await this.sleep(30);
+        await sleep(DRAWING_DELAY_MS);
         x--;
         currentColor = this.screen.getPixel(x, y);
       }

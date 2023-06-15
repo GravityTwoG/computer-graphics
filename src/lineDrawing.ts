@@ -10,7 +10,9 @@ import { LineDrawingPresenter } from './LineDrawingPresenter';
 
 import { Container } from 'inversify';
 import { TYPES } from './interfaces/ioc/types';
-import { Screen, ScreenEvent } from './interfaces/Screen';
+import { Screen } from './interfaces/Screen';
+
+import { adjustCanvasSize } from './adjustCanvasSize';
 
 async function bootstrap() {
   const root = document.querySelector<HTMLDivElement>('#section1');
@@ -18,6 +20,8 @@ async function bootstrap() {
   if (!screenCanvas || !root) {
     return;
   }
+
+  adjustCanvasSize(screenCanvas);
 
   // NSDDA
   const container = new Container();
@@ -30,14 +34,13 @@ async function bootstrap() {
     .to(LineDrawingPresenter)
     .inSingletonScope();
 
-  const presenter = container.get<LineDrawingPresenter>(TYPES.PRESENTER);
-  //
+  container.get<LineDrawingPresenter>(TYPES.PRESENTER);
+
   const root2 = document.querySelector<HTMLDivElement>('#section2');
   const screenCanvas2 = document.querySelector<HTMLCanvasElement>('#screen2');
   if (!screenCanvas2 || !root2) {
     return;
   }
-
   // Brezenham
   const container2 = new Container();
   container2.bind<HTMLDivElement>(TYPES.ROOT).toConstantValue(root2);
@@ -54,40 +57,10 @@ async function bootstrap() {
     .to(LineDrawingPresenter)
     .inSingletonScope();
 
-  const presenter2 = container2.get<LineDrawingPresenter>(TYPES.PRESENTER);
+  screenCanvas2.width = Math.trunc(window.innerWidth / 10) * 10;
+  screenCanvas2.height = Math.trunc(window.innerHeight / 10) * 10;
 
-  let clicks = 0;
-  const onClick = (e: ScreenEvent) => {
-    if (clicks === 0) {
-      presenter.screen.setPixel(e.x, e.y, '#000000');
-      presenter2.screen.setPixel(e.x, e.y, '#000000');
-
-      presenter2.x1 = e.x;
-      presenter2.y1 = e.y;
-    } else if (clicks === 1) {
-      presenter.screen.setPixel(e.x, e.y, '#000000');
-      presenter2.screen.setPixel(e.x, e.y, '#000000');
-
-      presenter2.x2 = e.x;
-      presenter2.y2 = e.y;
-      presenter2.lineDrawer.drawLine(
-        presenter2.x1,
-        presenter2.y1,
-        presenter2.x2,
-        presenter2.y2
-      );
-      presenter.lineDrawer.drawLine(
-        presenter2.x1,
-        presenter2.y1,
-        presenter2.x2,
-        presenter2.y2
-      );
-    }
-    clicks = (clicks + 1) % 2;
-  };
-
-  presenter.screen.addEventListener('mousedown', onClick);
-  presenter2.screen.addEventListener('mousedown', onClick);
+  container2.get<LineDrawingPresenter>(TYPES.PRESENTER);
 }
 
 bootstrap();

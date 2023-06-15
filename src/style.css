@@ -13,7 +13,7 @@ body {
   font-size: 18px;
 
   color: #fff;
-  background-color: #000;
+  background: #000;
   background: url(./background2.svg) no-repeat fixed;
 }
 
@@ -29,7 +29,7 @@ h1 {
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 3rem);
   line-height: 1.5em;
 }
 
@@ -59,8 +59,8 @@ button.button {
 }
 
 button.button:hover {
-  color: #ff9aff;
-  border-color: #ff9aff;
+  color: var(--accent-color);
+  border-color: var(--accent-color);
   filter: drop-shadow(0px 0px 60px);
 }
 button.button:active {
@@ -73,6 +73,7 @@ nav.glass {
   max-width: 1200px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   padding: 0;
   overflow: hidden;
   border-top-left-radius: 0;
@@ -96,7 +97,7 @@ nav > a:hover {
 
 nav > a.active {
   background: rgba(116, 72, 143, 0.14);
-  border-bottom: 2px solid #ff9aff;
+  border-bottom: 2px solid var(--accent-color);
   filter: drop-shadow(0px 0px 60px);
 }
 
@@ -111,6 +112,11 @@ section.section {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.section__header button {
+  margin-left: auto;
 }
 
 canvas.screen {

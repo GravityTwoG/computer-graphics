@@ -3,6 +3,7 @@ import { TYPES } from '../interfaces/ioc/types';
 
 import { Color } from '../interfaces/Color';
 import { PixelData, Screen } from '../interfaces/Screen';
+import { Colors } from '../constants';
 
 @injectable()
 export class ScreenEmulator implements Screen {
@@ -10,12 +11,11 @@ export class ScreenEmulator implements Screen {
   private context: CanvasRenderingContext2D;
   private screenBuffer: PixelData[][] = [];
 
-  // size of "emulated" pixel
   private pixelSize: number = 20;
-  private gridColor: Color = '#000000';
-  private bgColor: Color = '#ffffff';
+  private gridColor: Color = Colors.GRID;
+  private bgColor: Color = 'rgba(0, 0, 0, 0)';
 
-  // size of emulated screen
+  // size of "emulated" pixel
   private cols: number = 0;
   private rows: number = 0;
 
@@ -48,7 +48,7 @@ export class ScreenEmulator implements Screen {
 
     this.computeRowsAndCols();
     this.initScreenBuffer();
-    this.setGridColor('#000000');
+    this.setGridColor(Colors.GRID);
     this.drawPixelGrid();
   }
 
@@ -68,24 +68,19 @@ export class ScreenEmulator implements Screen {
   }
 
   public drawPixelGrid() {
-    this.context.lineWidth = 1.5;
+    this.context.beginPath();
     this.context.strokeStyle = this.gridColor;
 
-    for (let col = 0; col <= this.cols; col++) {
-      this.context.beginPath();
-      this.context.moveTo(col * this.pixelSize, 0);
-      this.context.lineTo(col * this.pixelSize, this.root.height);
-      this.context.stroke();
-      this.context.closePath();
+    for (let x = 0; x <= this.cols * this.pixelSize; x += this.pixelSize) {
+      this.context.moveTo(x, 0);
+      this.context.lineTo(x, this.root.height);
     }
-
-    for (let row = 0; row <= this.rows; row++) {
-      this.context.beginPath();
-      this.context.moveTo(0, row * this.pixelSize);
-      this.context.lineTo(this.root.width, row * this.pixelSize);
-      this.context.stroke();
-      this.context.closePath();
+    for (let y = 0; y <= this.rows * this.pixelSize; y += this.pixelSize) {
+      this.context.moveTo(0, y);
+      this.context.lineTo(this.root.width, y);
     }
+    this.context.stroke();
+    this.context.closePath();
   }
 
   public clear(): void {
@@ -99,6 +94,13 @@ export class ScreenEmulator implements Screen {
 
     this.screenBuffer[x][y] = color;
     this.context.fillStyle = color;
+    // in case if canvas is transparent
+    this.context.clearRect(
+      x * this.pixelSize + 1,
+      y * this.pixelSize + 1,
+      realPixelSize,
+      realPixelSize
+    );
     this.context.fillRect(
       x * this.pixelSize + 1,
       y * this.pixelSize + 1,

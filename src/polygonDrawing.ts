@@ -13,12 +13,16 @@ import { PolygonDrawingPresenter } from './PolygonDrawingPresenter';
 import { ScanLine } from './PolygonDrawers/ScanLine';
 import { FillByEdges } from './PolygonDrawers/FillByEdges';
 
+import { adjustCanvasSize } from './adjustCanvasSize';
+
 async function bootstrap() {
   const root = document.querySelector<HTMLDivElement>('#section1');
   const screenCanvas = document.querySelector<HTMLCanvasElement>('#screen');
   if (!screenCanvas || !root) {
     return;
   }
+
+  adjustCanvasSize(screenCanvas);
 
   const container = new Container();
   container.bind<HTMLDivElement>(TYPES.ROOT).toConstantValue(root);
@@ -45,6 +49,8 @@ async function bootstrap() {
   if (!screenCanvas2 || !root2) {
     return;
   }
+
+  adjustCanvasSize(screenCanvas2);
 
   const container2 = new Container();
   container2.bind<HTMLDivElement>(TYPES.ROOT).toConstantValue(root2);

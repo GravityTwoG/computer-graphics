@@ -4,6 +4,8 @@ import { TYPES } from '../interfaces/ioc/types';
 import { PolygonDrawer } from '../interfaces/PolygonDrawer';
 import { type Screen } from '../interfaces/Screen';
 import { Point } from '../interfaces/Point';
+import { DRAWING_DELAY_MS } from '../constants';
+import { sleep } from '../sleep';
 
 @injectable()
 export class FillByEdges implements PolygonDrawer {
@@ -34,7 +36,7 @@ export class FillByEdges implements PolygonDrawer {
       const column = [];
 
       for (let j = 0; j < rows; j++) {
-        column.push({ old: '#ffffff', isFilled: false });
+        column.push({ old: 'rgba(0,0,0,0)', isFilled: false });
       }
 
       buffer.push(column);
@@ -60,12 +62,6 @@ export class FillByEdges implements PolygonDrawer {
       color,
       buffer
     );
-  }
-
-  protected async sleep(duration: number): Promise<void> {
-    return new Promise((resolve) => {
-      setTimeout(resolve, duration);
-    });
   }
 
   private async flipRight(
@@ -134,12 +130,11 @@ export class FillByEdges implements PolygonDrawer {
 
     const y_n = max_y - y;
 
-    // const oldColor = screenBuffer[x1][y];
     this.screen.setPixel(x1, y, color);
     buffer[x1 - min_x][y_n].isFilled = true;
     buffer[x1 - min_x][y_n].old = color;
 
-    await this.sleep(20);
+    await sleep(DRAWING_DELAY_MS);
 
     for (let xi = x1 + 1; xi <= max_x; xi++) {
       const x_n = xi - min_x;
@@ -154,7 +149,7 @@ export class FillByEdges implements PolygonDrawer {
 
       buffer[x_n][y_n].isFilled = !isFilled;
       buffer[x_n][y_n].old = oldColor;
-      await this.sleep(20);
+      await sleep(DRAWING_DELAY_MS);
     }
   }
 }

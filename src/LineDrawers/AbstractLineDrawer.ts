@@ -18,12 +18,6 @@ export class AbstractLineDrawer implements LineDrawer {
     this.color = color;
   }
 
-  protected async sleep(duration: number): Promise<void> {
-    return new Promise((resolve) => {
-      setTimeout(resolve, duration);
-    });
-  }
-
   public async drawLine(
     _x1: number,
     _y1: number,

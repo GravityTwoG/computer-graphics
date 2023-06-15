@@ -5,6 +5,7 @@ import { type Screen } from '../interfaces/Screen';
 
 import { AbstractLineDrawer } from './AbstractLineDrawer';
 import { DRAWING_DELAY_MS } from '../constants';
+import { sleep } from '../sleep';
 
 @injectable()
 export class Brezenham extends AbstractLineDrawer implements LineDrawer {
@@ -31,7 +32,7 @@ export class Brezenham extends AbstractLineDrawer implements LineDrawer {
       for (let i = 0; i <= dx; i++) {
         this.screen.setPixel(x, y, this.color);
 
-        await this.sleep(DRAWING_DELAY_MS);
+        await sleep(DRAWING_DELAY_MS);
 
         while (err >= 0) {
           y = y + sDy;
@@ -45,7 +46,7 @@ export class Brezenham extends AbstractLineDrawer implements LineDrawer {
       let err = 2 * dx - dy;
       for (let i = 0; i <= dy; i++) {
         this.screen.setPixel(x, y, this.color);
-        await this.sleep(30);
+        await sleep(DRAWING_DELAY_MS);
 
         while (err >= 0) {
           x = x + sDx;

@@ -3,6 +3,7 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from './interfaces/ioc/types';
 import { type LineDrawer } from './interfaces/LineDrawer';
 import { type Screen } from './interfaces/Screen';
+import { Colors, PIXEL_SIZE } from './constants';
 
 @injectable()
 export class LineDrawingPresenter {
@@ -10,16 +11,14 @@ export class LineDrawingPresenter {
   public y1 = 0;
   public x2 = 0;
   public y2 = 0;
-  public readonly pixelSize = 20;
 
   constructor(
     @inject(TYPES.ROOT) readonly root: HTMLDivElement,
     @inject(TYPES.SCREEN) readonly screen: Screen,
     @inject(TYPES.LINE_DRAWER) readonly lineDrawer: LineDrawer
   ) {
-    this.screen.setPixelSize(this.pixelSize);
-    this.screen.setGridColor('#000000');
-    this.lineDrawer.setLineColor('#4b94fa');
+    this.screen.setPixelSize(PIXEL_SIZE);
+    this.lineDrawer.setLineColor(Colors.BLUE);
 
     const button = this.root.querySelector<HTMLButtonElement>(
       'button.button.clear'
@@ -32,5 +31,22 @@ export class LineDrawingPresenter {
     button.onclick = () => {
       this.screen.clear();
     };
+
+    let clicks = 0;
+    this.screen.addEventListener('mousedown', (e) => {
+      if (clicks === 0) {
+        this.screen.setPixel(e.x, e.y, Colors.POINT);
+
+        this.x1 = e.x;
+        this.y1 = e.y;
+      } else if (clicks === 1) {
+        this.screen.setPixel(e.x, e.y, Colors.POINT);
+
+        this.x2 = e.x;
+        this.y2 = e.y;
+        this.lineDrawer.drawLine(this.x1, this.y1, this.x2, this.y2);
+      }
+      clicks = (clicks + 1) % 2;
+    });
   }
 }

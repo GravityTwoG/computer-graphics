@@ -5,6 +5,7 @@ import { type Screen } from './interfaces/Screen';
 import { type LineDrawer } from './interfaces/LineDrawer';
 import { type PolygonFiller } from './interfaces/PolygonFiller';
 import { type Point } from './interfaces/Point';
+import { Colors, PIXEL_SIZE } from './constants';
 
 @injectable()
 export class PolygonFillingPresenter {
@@ -18,14 +19,14 @@ export class PolygonFillingPresenter {
   ) {
     this.figure = [];
     const drawEdges = true;
-    const boundaryColor = '#4b94fa';
-    this.screen.setPixelSize(40);
+    const boundaryColor = Colors.BLUE;
+    this.screen.setPixelSize(PIXEL_SIZE);
 
     this.screen.addEventListener('mousedown', async (e) => {
       const last = { x: e.x, y: e.y };
 
       if (e.isRight) {
-        await this.filler.fillPolygon(e.x, e.y, boundaryColor, '#9994fa');
+        await this.filler.fillPolygon(e.x, e.y, boundaryColor, Colors.GREEN);
         this.figure = [];
         return;
       }
@@ -37,9 +38,9 @@ export class PolygonFillingPresenter {
           this.lineDrawer.setLineColor(boundaryColor);
           await this.lineDrawer.drawLine(prev.x, prev.y, last.x, last.y);
         }
-        this.screen.setPixel(prev.x, prev.y, '#000000');
+        this.screen.setPixel(prev.x, prev.y, Colors.POINT);
       }
-      this.screen.setPixel(last.x, last.y, '#000000');
+      this.screen.setPixel(last.x, last.y, Colors.POINT);
 
       // fill polygon
       if (
@@ -67,7 +68,7 @@ export class PolygonFillingPresenter {
   }
 
   private async drawFigureEdges() {
-    this.lineDrawer.setLineColor('#4b94fa');
+    this.lineDrawer.setLineColor(Colors.BLUE);
     for (let i = 1; i < this.figure.length; i++) {
       const a = this.figure[i - 1];
       const b = this.figure[i];

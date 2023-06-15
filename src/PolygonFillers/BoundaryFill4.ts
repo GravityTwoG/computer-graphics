@@ -4,6 +4,8 @@ import { TYPES } from '../interfaces/ioc/types';
 import { PolygonFiller } from '../interfaces/PolygonFiller';
 import { type Screen } from '../interfaces/Screen';
 import { Point } from '../interfaces/Point';
+import { DRAWING_DELAY_MS } from '../constants';
+import { sleep } from '../sleep';
 
 @injectable()
 export class BoundaryFill4 implements PolygonFiller {
@@ -22,7 +24,7 @@ export class BoundaryFill4 implements PolygonFiller {
       const { x, y } = stack.pop()!;
 
       this.screen.setPixel(x, y, fillColor);
-      await this.sleep(30);
+      await sleep(DRAWING_DELAY_MS);
 
       // bottom
       let currentColor = this.screen.getPixel(x, y + 1);
@@ -45,11 +47,5 @@ export class BoundaryFill4 implements PolygonFiller {
         stack.push({ x: x + 1, y });
       }
     }
-  }
-
-  protected async sleep(duration: number): Promise<void> {
-    return new Promise((resolve) => {
-      setTimeout(resolve, duration);
-    });
   }
 }
