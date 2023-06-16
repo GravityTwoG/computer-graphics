@@ -61,7 +61,7 @@ async function bootstrap() {
   if (!screenCanvas2 || !root2) {
     return;
   }
-  adjustCanvasSize(screenCanvas);
+  adjustCanvasSize(screenCanvas2);
 
   const container2 = Container.createChildContainer();
   container2.register<HTMLDivElement>(TYPES.ROOT, { useValue: root2 });

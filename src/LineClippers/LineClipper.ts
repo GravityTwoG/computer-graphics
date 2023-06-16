@@ -6,19 +6,25 @@ import { Point } from '../interfaces/Point';
 import type { LineDrawer } from '../interfaces/LineDrawer';
 import type { LineClipper } from '../interfaces/LineClipper';
 
-import { AbstractLineClipper } from './AbstractLineClipper';
 import { TYPES } from '../interfaces/ioc/types';
+import { Color } from '../interfaces/Color';
 
 @injectable()
-export class LineClipperImpl
-  extends AbstractLineClipper
-  implements LineClipper
-{
+export class LineClipperImpl implements LineClipper {
+  protected screen: Screen;
+  protected lineDrawer: LineDrawer;
+  protected color: Color = '#000000';
+
   constructor(
     @inject(TYPES.SCREEN) screen: Screen,
     @inject(TYPES.LINE_DRAWER) lineDrawer: LineDrawer
   ) {
-    super(screen, lineDrawer);
+    this.screen = screen;
+    this.lineDrawer = lineDrawer;
+  }
+
+  public setLineColor(color: Color) {
+    this.color = color;
   }
 
   private isConvex(figure: Point[]): boolean {

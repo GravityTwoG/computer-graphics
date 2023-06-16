@@ -2,10 +2,15 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 :root {
   --accent-color: #ff9aff;
+}
+
+html {
+  background: #000;
 }
 
 body {
