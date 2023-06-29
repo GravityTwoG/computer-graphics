@@ -45,32 +45,63 @@ export class BoundaryFillLine implements PolygonFiller {
   ) {
     const stack: Point[] = [{ x, y }];
 
-    let x_max: number;
-    let x_min: number;
-
     while (stack.length) {
       const point = stack.pop()!;
       x = point.x;
       y = point.y;
+
+      if (!this.screen.isInBounds(x, y)) {
+        continue;
+      }
+
       let currentColor = this.screen.getPixel(x, y);
       while (currentColor !== boundaryColor && currentColor !== fillColor) {
         this.screen.setPixel(x, y, fillColor);
         await sleep(DRAWING_DELAY_MS);
         x++;
+        if (!this.screen.isInBounds(x, y)) {
+          x--;
+          break;
+        }
         currentColor = this.screen.getPixel(x, y);
       }
-      x_max = x;
+      const x_max: number = x;
 
       x = point.x - 1;
       y = point.y;
+
+      if (!this.screen.isInBounds(x, y)) {
+        this.checkNextLine(
+          point.x,
+          x_max,
+          y - 1,
+          fillColor,
+          boundaryColor,
+          stack
+        );
+        this.checkNextLine(
+          point.x,
+          x_max,
+          y + 1,
+          fillColor,
+          boundaryColor,
+          stack
+        );
+        continue;
+      }
+
       currentColor = this.screen.getPixel(x, y);
       while (currentColor !== boundaryColor && currentColor !== fillColor) {
         this.screen.setPixel(x, y, fillColor);
         await sleep(DRAWING_DELAY_MS);
         x--;
+        if (!this.screen.isInBounds(x, y)) {
+          x++;
+          break;
+        }
         currentColor = this.screen.getPixel(x, y);
       }
-      x_min = x;
+      const x_min: number = x;
 
       this.checkNextLine(x_min, x_max, y - 1, fillColor, boundaryColor, stack);
       this.checkNextLine(x_min, x_max, y + 1, fillColor, boundaryColor, stack);

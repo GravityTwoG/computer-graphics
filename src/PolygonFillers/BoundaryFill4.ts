@@ -21,28 +21,42 @@ export class BoundaryFill4 implements PolygonFiller {
     while (stack.length) {
       const { x, y } = stack.pop()!;
 
+      if (!this.screen.isInBounds(x, y)) {
+        continue;
+      }
+
       this.screen.setPixel(x, y, fillColor);
       await sleep(DRAWING_DELAY_MS);
 
       // bottom
-      let currentColor = this.screen.getPixel(x, y + 1);
-      if (currentColor != boundaryColor && currentColor != fillColor) {
-        stack.push({ x, y: y + 1 });
+      if (this.screen.isInBounds(x, y + 1)) {
+        const currentColor = this.screen.getPixel(x, y + 1);
+        if (currentColor != boundaryColor && currentColor != fillColor) {
+          stack.push({ x, y: y + 1 });
+        }
       }
       // left
-      currentColor = this.screen.getPixel(x - 1, y);
-      if (currentColor != boundaryColor && currentColor != fillColor) {
-        stack.push({ x: x - 1, y });
+      if (this.screen.isInBounds(x - 1, y)) {
+        const currentColor = this.screen.getPixel(x - 1, y);
+        if (currentColor != boundaryColor && currentColor != fillColor) {
+          stack.push({ x: x - 1, y });
+        }
       }
+
       // top
-      currentColor = this.screen.getPixel(x, y - 1);
-      if (currentColor != boundaryColor && currentColor != fillColor) {
-        stack.push({ x, y: y - 1 });
+      if (this.screen.isInBounds(x, y - 1)) {
+        const currentColor = this.screen.getPixel(x, y - 1);
+        if (currentColor != boundaryColor && currentColor != fillColor) {
+          stack.push({ x, y: y - 1 });
+        }
       }
+
       // right
-      currentColor = this.screen.getPixel(x + 1, y);
-      if (currentColor != boundaryColor && currentColor != fillColor) {
-        stack.push({ x: x + 1, y });
+      if (this.screen.isInBounds(x + 1, y)) {
+        const currentColor = this.screen.getPixel(x + 1, y);
+        if (currentColor != boundaryColor && currentColor != fillColor) {
+          stack.push({ x: x + 1, y });
+        }
       }
     }
   }

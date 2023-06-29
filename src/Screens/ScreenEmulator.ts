@@ -110,6 +110,10 @@ export class ScreenEmulator implements Screen {
     return this.screenBuffer[x][y];
   }
 
+  public isInBounds(x: number, y: number) {
+    return x >= 0 && x < this.getWidth() && y >= 0 && y < this.getHeight();
+  }
+
   public getWidth(): number {
     return this.cols;
   }
