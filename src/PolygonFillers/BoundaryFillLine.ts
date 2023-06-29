@@ -1,15 +1,13 @@
-import { inject, injectable } from 'tsyringe';
 import { Color } from '../interfaces/Color';
-import { TYPES } from '../interfaces/ioc/types';
 import { PolygonFiller } from '../interfaces/PolygonFiller';
 import { type Screen } from '../interfaces/Screen';
 import { Point } from '../interfaces/Point';
+
 import { DRAWING_DELAY_MS } from '../constants';
 import { sleep } from '../sleep';
 
-@injectable()
 export class BoundaryFillLine implements PolygonFiller {
-  constructor(@inject(TYPES.SCREEN) private readonly screen: Screen) {}
+  constructor(private readonly screen: Screen) {}
 
   checkNextLine(
     x_min: number,

@@ -1,24 +1,17 @@
-import { injectable, inject } from 'tsyringe';
-
 import { type Screen } from '../interfaces/Screen';
 import { Point } from '../interfaces/Point';
 
 import type { LineDrawer } from '../interfaces/LineDrawer';
 import type { LineClipper } from '../interfaces/LineClipper';
 
-import { TYPES } from '../interfaces/ioc/types';
 import { Color } from '../interfaces/Color';
 
-@injectable()
 export class LineClipperImpl implements LineClipper {
   protected screen: Screen;
   protected lineDrawer: LineDrawer;
   protected color: Color = '#000000';
 
-  constructor(
-    @inject(TYPES.SCREEN) screen: Screen,
-    @inject(TYPES.LINE_DRAWER) lineDrawer: LineDrawer
-  ) {
+  constructor(screen: Screen, lineDrawer: LineDrawer) {
     this.screen = screen;
     this.lineDrawer = lineDrawer;
   }

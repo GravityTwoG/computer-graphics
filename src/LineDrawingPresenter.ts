@@ -1,11 +1,7 @@
-import { inject, injectable } from 'tsyringe';
-
-import { TYPES } from './interfaces/ioc/types';
 import { type LineDrawer } from './interfaces/LineDrawer';
 import { type Screen } from './interfaces/Screen';
 import { Colors, PIXEL_SIZE } from './constants';
 
-@injectable()
 export class LineDrawingPresenter {
   public x1 = 0;
   public y1 = 0;
@@ -13,9 +9,9 @@ export class LineDrawingPresenter {
   public y2 = 0;
 
   constructor(
-    @inject(TYPES.ROOT) readonly root: HTMLDivElement,
-    @inject(TYPES.SCREEN) readonly screen: Screen,
-    @inject(TYPES.LINE_DRAWER) readonly lineDrawer: LineDrawer
+    readonly root: HTMLDivElement,
+    readonly screen: Screen,
+    readonly lineDrawer: LineDrawer
   ) {
     this.screen.setPixelSize(PIXEL_SIZE);
     this.lineDrawer.setLineColor(Colors.BLUE);

@@ -1,16 +1,12 @@
-import { injectable, inject } from 'tsyringe';
-import { TYPES } from '../interfaces/ioc/types';
-
 import { Color } from '../interfaces/Color';
 import { type Screen } from '../interfaces/Screen';
 import { LineDrawer } from '../interfaces/LineDrawer';
 
-@injectable()
 export class AbstractLineDrawer implements LineDrawer {
   protected screen: Screen;
   protected color: Color = '#000000';
 
-  constructor(@inject(TYPES.SCREEN) screen: Screen) {
+  constructor(screen: Screen) {
     this.screen = screen;
   }
 

@@ -1,23 +1,19 @@
-import { injectable, inject } from 'tsyringe';
-
 import { LineDrawer } from '../interfaces/LineDrawer';
 import { type Screen } from '../interfaces/Screen';
+import { Color } from '../interfaces/Color';
 
 import { DRAWING_DELAY_MS } from '../constants';
 import { sleep } from '../sleep';
-import { TYPES } from '../interfaces/ioc/types';
-import { Color } from '../interfaces/Color';
 
 function intl(x: number): number {
   return Math.floor(x);
 }
 
-@injectable()
 export class NSDDA implements LineDrawer {
   protected screen: Screen;
   protected color: Color = '#000000';
 
-  constructor(@inject(TYPES.SCREEN) screen: Screen) {
+  constructor(screen: Screen) {
     this.screen = screen;
   }
 

@@ -1,21 +1,18 @@
-import { inject, injectable } from 'tsyringe';
-
-import { TYPES } from './interfaces/ioc/types';
 import { Point } from './interfaces/Point';
 import type { Screen, ScreenEvent } from './interfaces/Screen';
 import type { LineDrawer } from './interfaces/LineDrawer';
 import type { LineClipper } from './interfaces/LineClipper';
+
 import { Colors, PIXEL_SIZE } from './constants';
 
-@injectable()
 export class LineClippingPresenter {
   private figure: Point[];
 
   constructor(
-    @inject(TYPES.ROOT) readonly root: HTMLDivElement,
-    @inject(TYPES.SCREEN) readonly screen: Screen,
-    @inject(TYPES.LINE_DRAWER) readonly lineDrawer: LineDrawer,
-    @inject(TYPES.LINE_CLIPPER) readonly lineClipper: LineClipper
+    readonly root: HTMLDivElement,
+    readonly screen: Screen,
+    readonly lineDrawer: LineDrawer,
+    readonly lineClipper: LineClipper
   ) {
     this.screen.setPixelSize(PIXEL_SIZE);
 

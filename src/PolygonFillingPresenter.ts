@@ -1,21 +1,17 @@
-import { inject, injectable } from 'tsyringe';
-
-import { TYPES } from './interfaces/ioc/types';
 import { type Screen } from './interfaces/Screen';
 import { type LineDrawer } from './interfaces/LineDrawer';
 import { type PolygonFiller } from './interfaces/PolygonFiller';
 import { type Point } from './interfaces/Point';
 import { Colors, PIXEL_SIZE } from './constants';
 
-@injectable()
 export class PolygonFillingPresenter {
   private figure: Point[];
 
   constructor(
-    @inject(TYPES.ROOT) readonly root: HTMLDivElement,
-    @inject(TYPES.SCREEN) private readonly screen: Screen,
-    @inject(TYPES.LINE_DRAWER) private readonly lineDrawer: LineDrawer,
-    @inject(TYPES.POLYGON_DRAWER) private readonly filler: PolygonFiller
+    readonly root: HTMLDivElement,
+    private readonly screen: Screen,
+    private readonly lineDrawer: LineDrawer,
+    private readonly filler: PolygonFiller
   ) {
     this.figure = [];
     const drawEdges = true;

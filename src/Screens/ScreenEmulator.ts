@@ -1,11 +1,8 @@
-import { injectable, inject } from 'tsyringe';
-import { TYPES } from '../interfaces/ioc/types';
-
 import { Color } from '../interfaces/Color';
 import { PixelData, Screen } from '../interfaces/Screen';
+
 import { Colors } from '../constants';
 
-@injectable()
 export class ScreenEmulator implements Screen {
   private root: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
@@ -19,7 +16,7 @@ export class ScreenEmulator implements Screen {
   private cols: number = 0;
   private rows: number = 0;
 
-  constructor(@inject(TYPES.CANVAS) root: HTMLCanvasElement) {
+  constructor(root: HTMLCanvasElement) {
     this.root = root;
     const ctx = this.root.getContext('2d');
 

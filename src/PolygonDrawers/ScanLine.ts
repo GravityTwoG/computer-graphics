@@ -1,6 +1,3 @@
-import { inject, injectable } from 'tsyringe';
-
-import { TYPES } from '../interfaces/ioc/types';
 import { Color } from '../interfaces/Color';
 import { type LineDrawer } from '../interfaces/LineDrawer';
 import { PolygonDrawer } from '../interfaces/PolygonDrawer';
@@ -13,11 +10,8 @@ type IntersectionNode = {
 };
 
 // https://web.cs.ucdavis.edu/~ma/ECS175_S00/Notes/0411_b.pdf
-@injectable()
 export class ScanLine implements PolygonDrawer {
-  constructor(
-    @inject(TYPES.LINE_DRAWER) private readonly lineDrawer: LineDrawer
-  ) {}
+  constructor(private readonly lineDrawer: LineDrawer) {}
 
   public async drawPolygon(shape: Point[], color: Color) {
     if (shape.length < 3) return;
